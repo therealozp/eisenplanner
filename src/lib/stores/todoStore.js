@@ -10,6 +10,7 @@ const createTodoStore = (initial) => {
 
 	return {
 		subscribe,
+
 		add: (description, urgent, important) => {
 			const task = { id: uuidv4(), description, urgent, important, done: false };
 			update(($todos) => [...$todos, task]);
@@ -22,10 +23,13 @@ const createTodoStore = (initial) => {
 				return $todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo));
 			});
 		},
+
 		toggleUrgent: (id) =>
 			update(($todos) => {
+				console.log('call to update urgent received.');
 				return $todos.map((todo) => (todo.id === id ? { ...todo, urgent: !todo.urgent } : todo));
 			}),
+
 		toggleImportant: (id) =>
 			update(($todos) => {
 				return $todos.map((todo) =>

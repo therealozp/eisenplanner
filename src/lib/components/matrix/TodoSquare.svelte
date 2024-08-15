@@ -2,7 +2,10 @@
 	import { crossfade } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 	import { flip } from 'svelte/animate';
+
+	import Button from '../ui/button/button.svelte';
 	import Checkbox from '../ui/checkbox/checkbox.svelte';
+	import { Trash } from 'lucide-svelte';
 
 	const [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200),
@@ -28,12 +31,19 @@
 </script>
 
 {#each $store.filter((t) => t.important == important && t.urgent == urgent) as todo (todo.id)}
-	<li in:receive={{ key: todo.id }} out:send={{ key: todo.id }} animate:flip={{ duration: 200 }}>
-		<label>
-			<Checkbox on:change={() => store.toggleUrgent(todo.id)} checked={todo.urgent} />
-			<Checkbox on:change={() => store.toggleImportant(todo.id)} checked={todo.important} />
-			{todo.description}
-			<button on:click={() => store.remove(todo)}>x</button>
-		</label>
-	</li>
+	<div
+		in:receive={{ key: todo.id }}
+		out:send={{ key: todo.id }}
+		animate:flip={{ duration: 200 }}
+		class="my-4 flex h-12 items-center rounded-md bg-slate-700 p-2"
+	>
+		<div class="mx-2 flex items-center">
+			<Checkbox on:click={() => store.toggleUrgent(todo.id)} checked={todo.urgent} class="mx-1" />
+			<Checkbox on:click={() => store.toggleImportant(todo.id)} checked={todo.important} />
+		</div>
+		{todo.description}
+		<Button on:click={() => store.remove(todo.id)} class="ml-auto" variant="outlined">
+			<Trash />
+		</Button>
+	</div>
 {/each}
