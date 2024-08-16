@@ -33,6 +33,7 @@
 		"formsnap": "^1.0.1",
 		"lucide-svelte": "^0.427.0",
 		"mode-watcher": "^0.4.1",
+		"svelte-dnd-action": "^0.9.49",
 		"sveltekit-superforms": "^2.17.0",
 		"tailwind-merge": "^2.5.2",
 		"tailwind-variants": "^0.2.1",
