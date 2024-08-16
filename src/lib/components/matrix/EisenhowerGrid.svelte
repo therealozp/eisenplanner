@@ -2,8 +2,8 @@
 </script>
 
 <div class="grid h-screen w-screen grid-cols-2 grid-rows-2">
-	<slot name="important_and_urgent"></slot>
-	<slot name="important_and_not_urgent"></slot>
-	<slot name="not_important_and_urgent"></slot>
-	<slot name="not_important_and_not_urgent"></slot>
+	<slot name="urgent_important"></slot>
+	<slot name="not_urgent_important"></slot>
+	<slot name="urgent_not_important"></slot>
+	<slot name="not_urgent_not_important"></slot>
 </div>
