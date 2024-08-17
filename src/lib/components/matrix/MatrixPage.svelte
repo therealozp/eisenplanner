@@ -1,63 +1,87 @@
 <script>
 	import EisenhowerGrid from './EisenhowerGrid.svelte';
-	import TodoSquare from './TodoSquare.svelte';
 	import TodoSquareDnd from './TodoSquareDND.svelte';
-	import { flip } from 'svelte/animate';
-	import { dndzone } from 'svelte-dnd-action';
-
 	import { v4 as uuidv4 } from 'uuid';
+	import { todoStore, prefillStore } from '../../stores/todoStore';
+	import { onMount } from 'svelte';
+	// const todos = [
+	// 	{
+	// 		status: 'urgent_important',
+	// 		items: [
+	// 			{ id: uuidv4(), description: 'Finish the SvelteKit course', urgent: true, important: true },
+	// 			{
+	// 				id: uuidv4(),
+	// 				description: 'Prepare the slides for the presentation',
+	// 				urgent: true,
+	// 				important: true
+	// 			}
+	// 		]
+	// 	},
+	// 	{
+	// 		status: 'not_urgent_important',
+	// 		items: [
+	// 			{ id: uuidv4(), description: 'Buy a new book', urgent: false, important: true },
+	// 			{ id: uuidv4(), description: 'Write a blog post', urgent: false, important: true }
+	// 		]
+	// 	},
+	// 	{
+	// 		status: 'urgent_not_important',
+	// 		items: [
+	// 			{ id: uuidv4(), description: 'Call the insurance company', urgent: true, important: false },
+	// 			{ id: uuidv4(), description: 'Go to the doctor', urgent: true, important: false }
+	// 		]
+	// 	},
+	// 	{
+	// 		status: 'not_urgent_not_important',
+	// 		items: [
+	// 			{ id: uuidv4(), description: 'Watch a movie', urgent: false, important: false },
+	// 			{ id: uuidv4(), description: 'Go for a walk', urgent: false, important: false }
+	// 		]
+	// 	}
+	// ];
 
-	const todos = [
+	const initialTodos = [
+		{ description: 'Finish the SvelteKit course', urgent: true, important: true, done: false },
 		{
-			status: 'urgent_important',
-			items: [
-				{ id: uuidv4(), description: 'Finish the SvelteKit course', urgent: true, important: true },
-				{
-					id: uuidv4(),
-					description: 'Prepare the slides for the presentation',
-					urgent: true,
-					important: true
-				}
-			]
+			description: 'Prepare the slides for the presentation',
+			urgent: true,
+			important: true,
+			done: false
 		},
-		{
-			status: 'not_urgent_important',
-			items: [
-				{ id: uuidv4(), description: 'Buy a new book', urgent: false, important: true },
-				{ id: uuidv4(), description: 'Write a blog post', urgent: false, important: true }
-			]
-		},
-		{
-			status: 'urgent_not_important',
-			items: [
-				{ id: uuidv4(), description: 'Call the insurance company', urgent: true, important: false },
-				{ id: uuidv4(), description: 'Go to the doctor', urgent: true, important: false }
-			]
-		},
-		{
-			status: 'not_urgent_not_important',
-			items: [
-				{ id: uuidv4(), description: 'Watch a movie', urgent: false, important: false },
-				{ id: uuidv4(), description: 'Go for a walk', urgent: false, important: false }
-			]
-		}
+		{ description: 'Buy a new book', urgent: false, important: true, done: false },
+		{ description: 'Write a blog post', urgent: false, important: true, done: false },
+		{ description: 'Call the insurance company', urgent: true, important: false, done: false },
+		{ description: 'Go to the doctor', urgent: true, important: false, done: false },
+		{ description: 'Watch a movie', urgent: false, important: false, done: false },
+		{ description: 'Go for a walk', urgent: false, important: false, done: false }
 	];
+	$: todos = todoStore;
+	onMount(() => {
+		prefillStore(initialTodos);
+		console.log('DEBUG Matrix Page: ', todos);
+	});
 </script>
 
 <EisenhowerGrid>
 	<div
 		slot="urgent_important"
-		class="overflow-y-auto border-b-2 border-r-2 border-b-slate-100 border-r-slate-100 p-4"
+		class="overflow-y-auto overflow-x-hidden border-b-2 border-r-2 border-b-slate-100 border-r-slate-100 p-4"
 	>
-		<TodoSquareDnd store={todos} index={0} />
+		<TodoSquareDnd store={todos} index={0} urgent_status={true} important_status={true} />
 	</div>
-	<div slot="not_urgent_important" class="overflow-y-auto border border-b-2 border-b-slate-100 p-4">
-		<TodoSquareDnd store={todos} index={1} />
+	<div
+		slot="not_urgent_important"
+		class="overflow-y-auto overflow-x-hidden border border-b-2 border-b-slate-100 p-4"
+	>
+		<TodoSquareDnd store={todos} index={1} urgent_status={false} important_status={true} />
 	</div>
-	<div slot="urgent_not_important" class="overflow-y-auto border border-r-2 border-r-slate-100 p-4">
-		<TodoSquareDnd store={todos} index={2} />
+	<div
+		slot="urgent_not_important"
+		class="overflow-y-auto overflow-x-hidden border border-r-2 border-r-slate-100 p-4"
+	>
+		<TodoSquareDnd store={todos} index={2} urgent_status={true} important_status={false} />
 	</div>
-	<div slot="not_urgent_not_important" class="overflow-y-auto p-4">
-		<TodoSquareDnd store={todos} index={3} />
+	<div slot="not_urgent_not_important" class="overflow-y-auto overflow-x-hidden p-4">
+		<TodoSquareDnd store={todos} index={3} urgent_status={false} important_status={false} />
 	</div>
 </EisenhowerGrid>
