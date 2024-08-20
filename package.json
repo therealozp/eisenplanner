@@ -28,6 +28,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"autosize": "^6.0.1",
 		"bits-ui": "^0.21.13",
 		"clsx": "^2.1.1",
 		"formsnap": "^1.0.1",
